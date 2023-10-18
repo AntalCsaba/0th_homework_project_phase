@@ -5,6 +5,7 @@ import com.example.calories.repositories.MealRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MealService {
@@ -15,12 +16,19 @@ public class MealService {
         this.mealRepository = mealRepository;
     }
 
-    public void addMeal(Meal meal){
+    public void addMeal(Meal meal) {
         mealRepository.save(meal);
     }
 
-    public List<Meal> getMeals(){
+    public List<Meal> getMeals() {
         return mealRepository.findAll();
     }
 
+    public Optional<Meal> findById(Long id){
+        return mealRepository.findById(id);
+    }
+
+    public void update(Meal meal) {
+        mealRepository.save(meal);
+    }
 }

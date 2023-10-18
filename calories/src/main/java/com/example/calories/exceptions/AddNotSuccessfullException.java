@@ -1,4 +1,4 @@
-package com.example.calories.errors;
+package com.example.calories.exceptions;
 
 public class AddNotSuccessfullException extends RuntimeException{
 

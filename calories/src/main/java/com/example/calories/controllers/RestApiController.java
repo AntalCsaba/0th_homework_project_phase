@@ -1,17 +1,15 @@
 package com.example.calories.controllers;
 
 import com.example.calories.dtos.MealDTO;
-import com.example.calories.errors.AddNotSuccessfullException;
-import com.example.calories.errors.ErrorResponse;
+import com.example.calories.exceptions.AddNotSuccessfullException;
+import com.example.calories.exceptions.MealNotFoundException;
 import com.example.calories.models.Meal;
 import com.example.calories.services.MealService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -30,16 +28,26 @@ public class RestApiController {
         if (addNotSuccessfullException != null) {
             throw addNotSuccessfullException;
         }
-
         mealService.addMeal(new Meal(mealDTO.getName(), Double.parseDouble(mealDTO.getCalories()), new Date()));
-
     }
 
     @GetMapping("/meals")
-    public List<Meal> getMeals(){
+    public List<Meal> getMeals() {
         return mealService.getMeals();
     }
 
+    @PutMapping("/update/{id}")
+    public void updateMeal(@PathVariable Long id, @RequestBody MealDTO mealDTO){
+        Optional<Meal> meal= mealService.findById(id);
+        if (meal.isEmpty()){
+            throw new MealNotFoundException("Wrong id!");
+        }
+        meal.get().setCalories(Double.parseDouble(mealDTO.getCalories()));
+        meal.get().setName(mealDTO.getName());
+        meal.get().setDate(new Date());
+        mealService.update(meal.get());
+
+    }
 
     public AddNotSuccessfullException verifyInput(MealDTO mealDTO) {
         if (mealDTO.getCalories() == null) {
