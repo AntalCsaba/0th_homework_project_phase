@@ -49,6 +49,15 @@ public class RestApiController {
 
     }
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteMeal(@PathVariable Long id){
+        Optional<Meal> meal= mealService.findById(id);
+        if (meal.isEmpty()){
+            throw new MealNotFoundException("Wrong id!");
+        }
+        mealService.delete(meal.get());
+    }
+
     public AddNotSuccessfullException verifyInput(MealDTO mealDTO) {
         if (mealDTO.getCalories() == null) {
             return new AddNotSuccessfullException("No value for calories found!");

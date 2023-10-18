@@ -31,4 +31,8 @@ public class MealService {
     public void update(Meal meal) {
         mealRepository.save(meal);
     }
+
+    public void delete(Meal meal){
+        mealRepository.delete(meal);
+    }
 }
