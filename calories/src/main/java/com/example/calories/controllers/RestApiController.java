@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -32,6 +34,12 @@ public class RestApiController {
         mealService.addMeal(new Meal(mealDTO.getName(), Double.parseDouble(mealDTO.getCalories()), new Date()));
 
     }
+
+    @GetMapping("/meals")
+    public List<Meal> getMeals(){
+        return mealService.getMeals();
+    }
+
 
     public AddNotSuccessfullException verifyInput(MealDTO mealDTO) {
         if (mealDTO.getCalories() == null) {
