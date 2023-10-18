@@ -1,5 +1,6 @@
 package com.example.calories.controllers;
 
+import com.example.calories.dtos.DateRequest;
 import com.example.calories.dtos.MealDTO;
 import com.example.calories.exceptions.AddNotSuccessfullException;
 import com.example.calories.exceptions.MealNotFoundException;
@@ -65,6 +66,11 @@ public class RestApiController {
             throw new MealNotFoundException("Wrong id!");
         }
         return meal.get();
+    }
+
+    @GetMapping("/calories")
+    public Integer getCaloriesPerDay(@RequestBody DateRequest dateRequest){
+        return mealService.getCaloriesPerDay(dateRequest.getDate());
     }
 
     public AddNotSuccessfullException verifyInput(MealDTO mealDTO) {
