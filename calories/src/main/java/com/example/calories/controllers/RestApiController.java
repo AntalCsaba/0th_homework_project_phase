@@ -58,6 +58,15 @@ public class RestApiController {
         mealService.delete(meal.get());
     }
 
+    @GetMapping("/meal/{id}")
+    public Meal getMeal(@PathVariable Long id){
+        Optional<Meal> meal= mealService.findById(id);
+        if (meal.isEmpty()){
+            throw new MealNotFoundException("Wrong id!");
+        }
+        return meal.get();
+    }
+
     public AddNotSuccessfullException verifyInput(MealDTO mealDTO) {
         if (mealDTO.getCalories() == null) {
             return new AddNotSuccessfullException("No value for calories found!");
